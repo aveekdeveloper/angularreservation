@@ -21,7 +21,7 @@ $location = trim($app->request()->get('location'));
 
 $result = list_playgrounds_by_sports_location($game_type,$location);
 
-if($result == '')
+if(empty($error))
 {
 	$app->response()->status(400);
 	$result=array();

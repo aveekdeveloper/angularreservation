@@ -251,7 +251,7 @@ function list_venues_by_sports_location( $sports_type , $location)
 	
 	if($location == '' )
 	{
-		return('');
+		return(array());
 	}
 	//regex to search by location
 	$locationregex = new MongoRegex("/$location/i");
