@@ -10,25 +10,33 @@ $app->response->headers->set('Content-Type', 'application/json');
 // GET route
 
 $app->get('/',function(){
-echo "Api home";
+	echo "Api home";
 });
+
+
+$app->get('/memcache',function(){
+	$memcache->set('key' , 'just some key' , false , 0);
+	
+	var_dump($memcache->get('key'));
+});
+
 
 $app->get('/search',function() use ($app){
 
-$query = $app->request()->get('q');
-$game_type = trim($app->request()->get('game_type'));
-$location = trim($app->request()->get('location'));
-
-$result = list_playgrounds_by_sports_location($game_type,$location);
-
-if(empty($error))
-{
-	$app->response()->status(400);
-	$result=array();
-	$result['message'] = 'Your search returned no results. Please modify your query';
-}
-
-echo json_encode($result);
+	$query = $app->request()->get('q');
+	$game_type = trim($app->request()->get('game_type'));
+	$location = trim($app->request()->get('location'));
+	
+	$result = list_playgrounds_by_sports_location($game_type,$location);
+	
+	if(empty($error))
+	{
+		$app->response()->status(400);
+		$result=array();
+		$result['message'] = 'Your search returned no results. Please modify your query';
+	}
+	
+	echo json_encode($result);
 });
 
  
