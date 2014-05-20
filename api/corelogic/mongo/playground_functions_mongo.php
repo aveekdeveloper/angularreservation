@@ -290,11 +290,22 @@ function list_venues_by_sports_location( $sports_type , $location)
 function list_playgrounds_by_sports_location( $sports_type , $location)
 {
 	global $playgrounds;
+	global $memcache;
 	
 	if($location == '' )
 	{
-		return('');
+		return(array());
 	}
+	
+	//check if already present in memcache
+	$result = $memcache->get($sports_type.'_'.$location);
+	if($result !== false)
+	{
+		//If present return from memcache
+		return $result;
+	}
+	
+	//Do search	
 	//regex to search by location
 	$locationregex = new MongoRegex("/$location/i");
 	
@@ -318,6 +329,9 @@ function list_playgrounds_by_sports_location( $sports_type , $location)
 	foreach ($cursor as $playground) {
 		array_push($playgrounds_result , $playground);
 	}
+	
+	//Store the search in memcache for 24 hours(86400 seconds)
+	$memcache->set( $sports_type.'_'.$location, $playgrounds_result, true, 86400);
 	
 	return($playgrounds_result);
 }

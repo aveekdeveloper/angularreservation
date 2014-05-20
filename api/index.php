@@ -31,7 +31,7 @@ $app->get('/search',function() use ($app){
 	
 	$result = list_playgrounds_by_sports_location($game_type,$location);
 	
-	if(empty($error))
+	if(empty($result))
 	{
 		$app->response()->status(400);
 		$result=array();
