@@ -15,6 +15,8 @@ $app->get('/',function(){
 
 
 $app->get('/memcache',function(){
+	
+	global $memcache;	
 	$memcache->set('key' , 'just some key' , false , 0);
 	
 	var_dump($memcache->get('key'));
