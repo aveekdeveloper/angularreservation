@@ -20,6 +20,11 @@ try{
   exit;
 }
 
+//try connecting to Memcache
+$memcache = new Memcache;
+$memcache->connect('tunnel.pagodabox.com', 11211) or die ("Could not connect to memcache");
+
+
 $db = $connection->$global_dbname; 
 
 include_once('playground_functions_mongo.php');
