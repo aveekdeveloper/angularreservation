@@ -331,7 +331,7 @@ function list_playgrounds_by_sports_location( $sports_type , $location)
 	}
 	
 	//Store the search in memcache for 24 hours(86400 seconds)
-	$memcache->set( $sports_type.'_'.$location, $playgrounds_result, true, 86400);
+	$memcache->set( $sports_type.'_'.$location, $playgrounds_result, false, 86400);
 	
 	return($playgrounds_result);
 }
