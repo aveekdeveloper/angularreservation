@@ -22,7 +22,7 @@ try{
 
 //try connecting to Memcache
 $memcache = new Memcache;
-$memcache->connect('tunnel.pagodabox.com', 11211) or die ("Could not connect to memcache");
+$memcache->connect($global_memcache_url, 11211) or die ("Could not connect to memcache");
 
 
 $db = $connection->$global_dbname; 
