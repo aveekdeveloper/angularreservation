@@ -336,6 +336,33 @@ function list_playgrounds_by_sports_location( $sports_type , $location)
 	return($playgrounds_result);
 }
 
+function get_playground_by_url($url)
+{
+	global $playgrounds;
+	global $memcache;
+	
+	if($url == '')
+	{
+		//If url is not provided return
+		return(array());
+	}
+	
+	$result = $memcache->get($url);
+	if($result !== false)
+	{
+		//If present return from memcache
+		return $result;
+	}
+	
+	//If not present in memcache provide from database
+	$playground = $playgrounds->findOne( array('Playground_url' => $url) , array('Playground_password' => false) );
+	
+	//Store the search in memcache for 1 hour(3600 seconds)
+	$memcache->set( $url, $playground, true, 3600);
+	
+	return($playground);
+}
+
 
 function list_venue_by_id($id)
 {

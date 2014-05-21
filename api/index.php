@@ -13,16 +13,6 @@ $app->get('/',function(){
 	echo "Api home";
 });
 
-
-$app->get('/memcache',function(){
-	
-	global $memcache;	
-	$memcache->set('key' , 'just some key' , false , 0);
-	
-	var_dump($memcache->get('key'));
-});
-
-
 $app->get('/search',function() use ($app){
 
 	$query = $app->request()->get('q');
@@ -39,9 +29,20 @@ $app->get('/search',function() use ($app){
 	}
 	
 	echo json_encode($result);
-});
+	});
 
- 
+$app->get('/playground/:url' , function($url){
+	$result = get_playground_by_url($url);
+	
+	if(empty($result))
+	{
+	$app->response()->status(400);
+	$result=array();
+	$result['message'] = 'Your search returned no results. Please modify your query';
+	}
+	
+	echo json_encode($result);
+	});
 
 $app->get('/hello/:name', function ($name) {
     echo "Hello, $name";
